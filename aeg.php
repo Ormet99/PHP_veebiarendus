@@ -1,10 +1,36 @@
 <?php
 
-if(isset($_POST['reg']){
+require_once 'DBconnect.php';
+
+if(isset($_POST['reg'])){
     $eesnimi = $_POST['nimi'];
     $perenimi = $_POST['perenimi'];
+    $kuu = $_POST['kuu'];
+    $paev = $_POST['paev'];
+    $aasta = $_POST['aasta'];
+    $aeg = "$kuu/$paev/$aasta";
+    $date = date('Y-m-d', strtotime($aeg));
     if($eesnimi != "" || $perenimi != ""){
-        
+        //CHECK IF USER EXISTS
+        $query = $conn->prepare("SELECT * FROM users WHERE userNAME = :eesnimi AND userLASTNAME = :perenimi AND userAGE = :vanus");
+        $query->execute(array(
+            "eesnimi" =>  $eesnimi,
+            "perenimi" => $perenimi,
+            "vanus" => $date
+        ));
+        if ($query->rowCount() > 0){
+            echo "Selline kasutaja on juba olemas";
+        }else{
+            //IF USER DOSEN'T EXIST, ADD NEW USER
+            $adduser = $conn->prepare("INSERT INTO users(userNAME, userLASTNAME, userAGE)
+            VALUES(:eesnimi, :perenimi, :vanus)");
+            $adduser->execute(array(
+                "eesnimi" =>  $eesnimi,
+                "perenimi" => $perenimi,
+                "vanus" => $date
+            ));
+            echo "Kasutaja on lisatud andmebaasi";
+        }
     }else{
         echo "Kõik lahtrid peavad olema täidetud";
     }
@@ -19,10 +45,11 @@ function year(){
 function kuu(){
     $months = array( 1 => 'Jaanuar', 'Veebruar', 'Märts', 'Aprill', 'Mai', 'Juuni', 'Juuli', 'August', 'September', 'Oktroober', 'November', 'Detsember' ); 
     foreach($months as $key => $month ){
+        $i++;
         if ($key == date('m') )
-            echo "<option value='$month' selected='selected'>$month</option>";
+            echo "<option value='$i' selected='selected'>$month</option>";
         else
-            echo "<option value='$month'>$month</option>";
+            echo "<option value='$i'>$month</option>";
     }
 }
 function day(){
