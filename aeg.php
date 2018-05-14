@@ -1,4 +1,16 @@
 <?php
+
+if(isset($_POST['reg']){
+    $eesnimi = $_POST['nimi'];
+    $perenimi = $_POST['perenimi'];
+    if($eesnimi != "" || $perenimi != ""){
+        
+    }else{
+        echo "Kõik lahtrid peavad olema täidetud";
+    }
+
+}
+
 function year(){
     for($i = 1920; $i < date('Y'); $i++){
         echo "<option value=$i>$i</option>";
@@ -17,9 +29,9 @@ function day(){
     $days = range(1,31);
     foreach($days as $day){
         if ($day == date('d') )
-            printf('<option value="%d" selected="selected">%d</option>', $day, $day);
+            echo "<option value='$day' selected='selected'>$day</option>";
         else
-            printf('<option value="%d">%d</option>', $day, $day);
+            echo "<option value='$day'>$day</option>";
     }
 }
 ?>
