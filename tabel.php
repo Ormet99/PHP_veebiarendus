@@ -44,4 +44,21 @@ Class htmltabel extends tabel{
     public function settaustavar($taustavarv){
         $this->taustavarv = $taustavarv;
     }
+
+    function prinditabel(){
+        echo '<tabel border="1">';
+        echo '<tr>';
+        foreach ($this->pealkirjad as $pealkiri){
+            echo '<th bgcolor="'.$this->taustavarv.'">'.$pealkiri.'</th>';
+        }
+        echo '</th>';
+        foreach ($this->tabelisisu as $realNumber=>$reaAndmed){
+            echo '<tr>';
+            foreach ($reaAndmed as $reaElement){
+                echo '<td bgcolor="'.$this->taustavarv.'">'.$reaElement.'</td>';
+            }
+            echo '</tr>';
+        }
+        echo '</tabel>';
+    }
 }
