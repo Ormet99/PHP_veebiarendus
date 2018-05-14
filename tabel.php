@@ -33,3 +33,15 @@ class tabel{
         echo '</pre>';
     }
 }
+Class htmltabel extends tabel{
+    var $taustavarv = '';
+
+    public function __construct(array $pealkirjad, $taustavarv){
+        parent::__consturct($pealkirjad);
+        $this->settaustavarv($taustavarv);
+    }
+
+    public function settaustavar($taustavarv){
+        $this->taustavarv = $taustavarv;
+    }
+}
